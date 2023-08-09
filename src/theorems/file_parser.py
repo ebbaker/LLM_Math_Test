@@ -37,7 +37,7 @@ def parse_lean_file(file_path, repo, path):
             thm_lines = thm_split[i].strip().splitlines()
             thm_name = thm_lines[0].strip().split()[0].strip()
             thm_statement = "theorem " + sub_split[0]
-            full_thm = "theorem " + thm_split[i]
+            full_thm = "theorem " + thm_split[i].rstrip("\n")
             proof_start_index = full_thm.index(":=") + 9
             proof_end_index = len(full_thm) - 6
             proof = full_thm[proof_start_index:proof_end_index].split("\n")

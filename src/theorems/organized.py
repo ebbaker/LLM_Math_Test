@@ -47,21 +47,24 @@ class Organized:
 
     # Return num_theorems similar theorems or random depending on the value of similarity
     def select_theorems(self, thm_name, num_theorems=1, similarity=True):
-      thm_in = self.retrieve_theorem(thm_name)
-      category = thm_in.category
-      #theorem_set=self.categories[category]
-      theorem_set = [x for x in self.categories[category] if x.thm_name!=thm_name and len(x.proof)<10]
-      
-      if similarity:
-          sorted_theorems = sorted(
-              theorem_set, 
-              key=lambda x: (
-                  self.count_common_proof_commands(x.proof, thm_in.proof) 
-              ),
-              reverse=True
-          )
-          selected_theorems = sorted_theorems[:num_theorems]
-      else:
-          selected_theorems = random.sample(theorem_set, num_theorems)
-      
-      return selected_theorems
+        thm_in = self.retrieve_theorem(thm_name)
+        category = thm_in.category
+        
+        if num_theorems < len(self.categories[category]) - 1:
+            theorem_set = [x for x in self.categories[category] if x.thm_name != thm_name and len(x.proof) < 10]
+        else:
+            theorem_set = [x for cat in self.categories.values() for x in cat if x.thm_name != thm_name and len(x.proof) < 10]
+            
+        if similarity:
+            sorted_theorems = sorted(
+                theorem_set, 
+                key=lambda x: (
+                    self.count_common_proof_commands(x.proof, thm_in.proof) 
+                ),
+                reverse=True
+            )
+            selected_theorems = sorted_theorems[:num_theorems]
+        else:
+            selected_theorems = random.sample(theorem_set, num_theorems)
+        
+        return selected_theorems
