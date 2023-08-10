@@ -133,9 +133,9 @@ class lean_chat:
         compiler_response, self.proof_finished = try_proof(dojo,s0,attempt)
         message_out=""
         if self.proof_finished:
-            message_out+="The compiler has produced the following output:\n"+compiler_response
-        else: 
             message_out+="Congratulations, the proof is correct.\n"
+        else: 
+            message_out+="The compiler has produced the following output:\n"+compiler_response
         return message_out
     # Pretty Print to file
     def pp_file(self, message):
